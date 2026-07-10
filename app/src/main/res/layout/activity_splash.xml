@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/navy">
+
+    <ImageView
+        android:id="@+id/splashLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="Logo"
+        app:layout_constraintBottom_toTopOf="@+id/splashName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/splashName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Al Habibi Feast"
+        android:textColor="@color/cream"
+        android:textSize="28sp"
+        android:fontFamily="serif"
+        android:letterSpacing="0.05"
+        app:layout_constraintTop_toBottomOf="@+id/splashLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/splashTagline"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/splashTagline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Where Quality Meets Taste"
+        android:textColor="@color/terra"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/splashName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

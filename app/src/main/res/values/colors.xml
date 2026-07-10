@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="navy">#2F3545</color>
+    <color name="terra">#C4796A</color>
+    <color name="cream">#F3F0EA</color>
+    <color name="gold">#CAA05A</color>
+    <color name="white">#FFFFFF</color>
+    <color name="ok">#2E7D52</color>
+    <color name="muted">#888888</color>
+    <color name="nav_tint_selected">#C4796A</color>
+    <color name="nav_tint_unselected">#888888</color>
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_home">
+
+    <fragment android:id="@+id/nav_home"
+        android:name="com.alhabibifeast.app.ui.home.HomeFragment"
+        android:label="Home"/>
+
+    <fragment android:id="@+id/nav_menu"
+        android:name="com.alhabibifeast.app.ui.menu.MenuFragment"
+        android:label="Menu">
+        <argument android:name="cat" android:defaultValue="all"
+            app:argType="string"/>
+    </fragment>
+
+    <fragment android:id="@+id/nav_cart"
+        android:name="com.alhabibifeast.app.ui.cart.CartFragment"
+        android:label="Cart"/>
+
+    <fragment android:id="@+id/nav_orders"
+        android:name="com.alhabibifeast.app.ui.orders.OrdersFragment"
+        android:label="Orders"/>
+
+    <fragment android:id="@+id/nav_account"
+        android:name="com.alhabibifeast.app.ui.account.AccountFragment"
+        android:label="Account"/>
+
+</navigation>
