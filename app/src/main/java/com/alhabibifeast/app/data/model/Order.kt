@@ -74,5 +74,5 @@ data class DeliveryLocationResponse(
     val lng: Double = 0.0,
     @com.google.gson.annotations.SerializedName("order_id") val orderId: String = "",
     @com.google.gson.annotations.SerializedName("updated_at") val updatedAt: String? = null,
-    val default: Boolean = false,
+    @com.google.gson.annotations.SerializedName("default") val isDefault: Boolean = false,
 )
