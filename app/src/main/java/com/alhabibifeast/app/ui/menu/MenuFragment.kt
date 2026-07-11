@@ -91,8 +91,10 @@ class MenuFragment : Fragment() {
                         filterAndDraw(rv, tvEmpty)
                     }
                 } catch (_: Exception) {
-                    tvEmpty.visibility = View.VISIBLE
-                    tvEmpty.text = "Could not load products. Check your connection."
+                    if (isAdded) {
+                        tvEmpty.visibility = View.VISIBLE
+                        tvEmpty.text = "Could not load products. Check your connection."
+                    }
                 } finally {
                     progress.visibility = View.GONE
                     swipe.isRefreshing  = false

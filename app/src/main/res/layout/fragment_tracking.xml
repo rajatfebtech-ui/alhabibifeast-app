@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:background="@color/cream">
 
-    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -34,40 +33,51 @@
             android:textStyle="bold"/>
     </LinearLayout>
 
-    <!-- Map -->
-    <fragment
-        android:id="@+id/trackingMap"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-    <!-- ETA bar -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:orientation="horizontal"
-        android:elevation="4dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Your rider is on the way!"
-            android:textColor="#666666"
-            android:textSize="13sp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ETA: ~25 min"
-            android:textColor="@color/terra"
+            android:text="🛵"
+            android:textSize="64sp"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your order is on the way!"
+            android:textColor="@color/navy"
+            android:textSize="20sp"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Our delivery partner has picked up your order and is headed your way."
+            android:textColor="#666666"
             android:textSize="14sp"
-            android:textStyle="bold"/>
+            android:gravity="center"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ETA: 25–40 minutes"
+            android:textColor="@color/terra"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="24dp"/>
+
     </LinearLayout>
 
 </LinearLayout>

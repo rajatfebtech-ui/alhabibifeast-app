@@ -39,11 +39,6 @@ class CartFragment : Fragment() {
         renderCart(view)
     }
 
-    override fun onResume() {
-        super.onResume()
-        view?.let { renderCart(it) }
-    }
-
     private fun renderCart(view: View) {
         val rv          = view.findViewById<RecyclerView>(R.id.rvCart)
         val tvSubtotal  = view.findViewById<TextView>(R.id.tvSubtotal)
@@ -92,7 +87,7 @@ class CartFragment : Fragment() {
                 btnWhatsApp.setOnClickListener { openWhatsApp(items, total) }
 
             } catch (_: Exception) {
-                Toast.makeText(requireContext(), "Failed to load cart", Toast.LENGTH_SHORT).show()
+                if (isAdded) Toast.makeText(requireContext(), "Failed to load cart", Toast.LENGTH_SHORT).show()
             }
         }
     }
