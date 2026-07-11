@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp" android:height="120dp"
+    android:viewportWidth="100" android:viewportHeight="100">
+
+    <!-- Terracotta background circle -->
+    <path android:fillColor="#C4796A"
+        android:pathData="M50,2 A48,48 0 1 0 50,98 A48,48 0 1 0 50,2 Z"/>
+
+    <!-- Fork: 3 prongs -->
+    <path android:fillColor="@android:color/transparent"
+          android:strokeColor="#FFFFFF" android:strokeWidth="2.8" android:strokeLineCap="round"
+          android:pathData="M34,28 L34,42"/>
+    <path android:fillColor="@android:color/transparent"
+          android:strokeColor="#FFFFFF" android:strokeWidth="2.8" android:strokeLineCap="round"
+          android:pathData="M39,28 L39,42"/>
+    <path android:fillColor="@android:color/transparent"
+          android:strokeColor="#FFFFFF" android:strokeWidth="2.8" android:strokeLineCap="round"
+          android:pathData="M44,28 L44,42"/>
+    <!-- Fork curve joining prongs -->
+    <path android:fillColor="@android:color/transparent"
+          android:strokeColor="#FFFFFF" android:strokeWidth="2.8" android:strokeLineCap="round"
+          android:strokeLineJoin="round"
+          android:pathData="M34,42 Q39,47 44,42"/>
+    <!-- Fork handle -->
+    <path android:fillColor="@android:color/transparent"
+          android:strokeColor="#FFFFFF" android:strokeWidth="2.8" android:strokeLineCap="round"
+          android:pathData="M39,47 L39,72"/>
+
+    <!-- Knife: blade + handle -->
+    <path android:fillColor="@android:color/transparent"
+          android:strokeColor="#FFFFFF" android:strokeWidth="2.8" android:strokeLineCap="round"
+          android:strokeLineJoin="round"
+          android:pathData="M58,28 Q67,37 67,48 L58,50 L58,72"/>
+
+</vector>

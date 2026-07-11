@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.gms.google-services'
 }
 
 android {
@@ -62,7 +61,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.2.0'
     implementation 'com.google.android.gms:play-services-location:21.1.0'
 
-    // Firebase BOM
-    implementation platform('com.google.firebase:firebase-bom:32.7.4')
-    implementation 'com.google.firebase:firebase-messaging-ktx'
+    // Firebase removed — add back when real google-services.json is available
 }
