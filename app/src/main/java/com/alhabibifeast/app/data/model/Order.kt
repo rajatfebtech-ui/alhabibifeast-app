@@ -68,6 +68,34 @@ data class CodOrderRequest(
 
 data class ApiResult(val ok: Boolean, val msg: String = "")
 
+// Rider models
+data class RiderLoginResponse(
+    val ok: Boolean,
+    @com.google.gson.annotations.SerializedName("rider_id") val riderId: String = "",
+    val name: String = "",
+    val msg: String = "",
+)
+
+data class RiderOrder(
+    @com.google.gson.annotations.SerializedName("order_id") val orderId: String,
+    @com.google.gson.annotations.SerializedName("customer_name") val customerName: String = "",
+    @com.google.gson.annotations.SerializedName("customer_phone") val customerPhone: String = "",
+    val address: String = "",
+    val total: Int = 0,
+    val items: List<OrderItem> = emptyList(),
+    @com.google.gson.annotations.SerializedName("placed_at") val placedAt: Long = 0,
+)
+
+data class PendingOrdersResponse(
+    val ok: Boolean,
+    val orders: List<RiderOrder> = emptyList(),
+)
+
+data class AcceptOrderResponse(
+    val ok: Boolean,
+    val msg: String = "",
+)
+
 data class DeliveryLocationResponse(
     val ok: Boolean,
     val lat: Double = 0.0,

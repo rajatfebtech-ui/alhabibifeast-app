@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
+        android:name=".AhfApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -31,6 +32,18 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"/>
+
+        <activity
+            android:name=".rider.RiderLoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="Rider Login"/>
+
+        <activity
+            android:name=".rider.RiderDashboardActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="Rider Dashboard"/>
 
 
     </application>

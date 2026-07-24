@@ -1,9 +1,11 @@
 package com.alhabibifeast.app.data.api
 
+import com.alhabibifeast.app.data.model.AcceptOrderResponse
 import com.alhabibifeast.app.data.model.ApiResult
 import com.alhabibifeast.app.data.model.CodOrderRequest
-import com.alhabibifeast.app.data.model.DeliveryLocationResponse
+import com.alhabibifeast.app.data.model.PendingOrdersResponse
 import com.alhabibifeast.app.data.model.ProductsResponse
+import com.alhabibifeast.app.data.model.RiderLoginResponse
 import com.alhabibifeast.app.data.model.TrackResponse
 import retrofit2.http.*
 
@@ -15,10 +17,21 @@ interface ApiService {
     @GET("api/track-order.php")
     suspend fun trackOrder(@Query("id") orderId: String): TrackResponse
 
-    @GET("api/delivery-location.php")
-    suspend fun getDeliveryLocation(@Query("order_id") orderId: String): DeliveryLocationResponse
-
     @POST("api/cod-order.php")
     @Headers("Content-Type: application/json")
     suspend fun placeCodOrder(@Body body: CodOrderRequest): ApiResult
+
+    // Rider APIs
+    @GET("api/rider-login.php")
+    suspend fun riderLogin(@Query("phone") phone: String, @Query("pin") pin: String): RiderLoginResponse
+
+    @GET("api/pending-orders.php")
+    suspend fun getPendingOrders(@Query("rider_id") riderId: String): PendingOrdersResponse
+
+    @GET("api/accept-order.php")
+    suspend fun acceptOrder(
+        @Query("order_id") orderId: String,
+        @Query("rider_id") riderId: String,
+        @Query("rider_name") riderName: String,
+    ): AcceptOrderResponse
 }
