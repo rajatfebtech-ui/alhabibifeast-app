@@ -21,6 +21,14 @@ class AccountFragment : Fragment() {
         inflater.inflate(R.layout.fragment_account, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        try {
+            setupAccountView(view)
+        } catch (t: Throwable) {
+            saveCrash(t)
+        }
+    }
+
+    private fun setupAccountView(view: View) {
         val prefs = requireContext().getSharedPreferences("ahf_account", Context.MODE_PRIVATE)
 
         val etName    = view.findViewById<TextInputEditText>(R.id.acName)
@@ -29,40 +37,48 @@ class AccountFragment : Fragment() {
         val etCity    = view.findViewById<TextInputEditText>(R.id.acCity)
         val etPin     = view.findViewById<TextInputEditText>(R.id.acPin)
 
-        // Load saved
-        etName.setText(prefs.getString("name", ""))
-        etPhone.setText(prefs.getString("phone", ""))
-        etAddress.setText(prefs.getString("address", ""))
-        etCity.setText(prefs.getString("city", ""))
-        etPin.setText(prefs.getString("pin", ""))
+        etName?.setText(prefs.getString("name", ""))
+        etPhone?.setText(prefs.getString("phone", ""))
+        etAddress?.setText(prefs.getString("address", ""))
+        etCity?.setText(prefs.getString("city", ""))
+        etPin?.setText(prefs.getString("pin", ""))
 
-        view.findViewById<Button>(R.id.btnSaveAccount).setOnClickListener {
+        view.findViewById<Button>(R.id.btnSaveAccount)?.setOnClickListener {
             prefs.edit()
-                .putString("name",    etName.text.toString())
-                .putString("phone",   etPhone.text.toString())
-                .putString("address", etAddress.text.toString())
-                .putString("city",    etCity.text.toString())
-                .putString("pin",     etPin.text.toString())
+                .putString("name",    etName?.text.toString())
+                .putString("phone",   etPhone?.text.toString())
+                .putString("address", etAddress?.text.toString())
+                .putString("city",    etCity?.text.toString())
+                .putString("pin",     etPin?.text.toString())
                 .apply()
             Toast.makeText(requireContext(), "Saved!", Toast.LENGTH_SHORT).show()
         }
 
-        view.findViewById<Button>(R.id.btnFranchise).setOnClickListener {
+        view.findViewById<Button>(R.id.btnFranchise)?.setOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://alhabibifeast.in/#/franchise")))
         }
 
-        view.findViewById<Button>(R.id.btnWhatsAppSupport).setOnClickListener {
+        view.findViewById<Button>(R.id.btnWhatsAppSupport)?.setOnClickListener {
             val url = "https://wa.me/917500000000?text=${Uri.encode("Hi! I need help with my Al Habibi Feast order.")}"
             try { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) }
             catch (_: Exception) { Toast.makeText(requireContext(), "WhatsApp not installed", Toast.LENGTH_SHORT).show() }
         }
 
-        view.findViewById<Button>(R.id.btnOrders).setOnClickListener {
+        view.findViewById<Button>(R.id.btnOrders)?.setOnClickListener {
             findNavController().navigate(R.id.nav_orders)
         }
 
-        view.findViewById<Button>(R.id.btnRiderLogin).setOnClickListener {
+        view.findViewById<Button>(R.id.btnRiderLogin)?.setOnClickListener {
             startActivity(Intent(requireContext(), RiderLoginActivity::class.java))
         }
+    }
+
+    private fun saveCrash(t: Throwable) {
+        try {
+            val msg = "AccountFragment: ${t.javaClass.name}: ${t.message}\n" +
+                t.stackTrace.take(6).joinToString("\n") { "  at ${it.className}.${it.methodName}(${it.fileName}:${it.lineNumber})" }
+            requireContext().getSharedPreferences("ahf_crash", android.content.Context.MODE_PRIVATE)
+                .edit().putString("last", msg).commit()
+        } catch (_: Throwable) {}
     }
 }

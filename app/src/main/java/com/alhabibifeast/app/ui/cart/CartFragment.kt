@@ -40,26 +40,25 @@ class CartFragment : Fragment() {
     }
 
     private fun renderCart(view: View) {
-        val rv          = view.findViewById<RecyclerView>(R.id.rvCart)
-        val tvSubtotal  = view.findViewById<TextView>(R.id.tvSubtotal)
-        val tvShipping  = view.findViewById<TextView>(R.id.tvShipping)
-        val tvTotal     = view.findViewById<TextView>(R.id.tvTotal)
-        val btnCod      = view.findViewById<Button>(R.id.btnCod)
-        val btnOnline   = view.findViewById<Button>(R.id.btnOnline)
-        val btnWhatsApp = view.findViewById<Button>(R.id.btnWhatsapp)
-        val emptyView   = view.findViewById<View>(R.id.cartEmpty)
-        val checkoutCard= view.findViewById<View>(R.id.checkoutCard)
+        val rv          = view.findViewById<RecyclerView>(R.id.rvCart) ?: return
+        val tvSubtotal  = view.findViewById<TextView>(R.id.tvSubtotal) ?: return
+        val tvShipping  = view.findViewById<TextView>(R.id.tvShipping) ?: return
+        val tvTotal     = view.findViewById<TextView>(R.id.tvTotal) ?: return
+        val btnCod      = view.findViewById<Button>(R.id.btnCod) ?: return
+        val btnOnline   = view.findViewById<Button>(R.id.btnOnline) ?: return
+        val btnWhatsApp = view.findViewById<Button>(R.id.btnWhatsapp) ?: return
+        val emptyView   = view.findViewById<View>(R.id.cartEmpty) ?: return
+        val checkoutCard= view.findViewById<View>(R.id.checkoutCard) ?: return
 
-        // We need products cached — load from api
         lifecycleScope.launch {
             try {
                 val resp  = ApiClient.api.getProducts()
                 val items = CartManager.getCartItems(resp.products)
 
                 if (items.isEmpty()) {
-                    emptyView.visibility   = View.VISIBLE
+                    emptyView.visibility    = View.VISIBLE
                     checkoutCard.visibility = View.GONE
-                    rv.visibility          = View.GONE
+                    rv.visibility           = View.GONE
                     return@launch
                 }
 
@@ -67,27 +66,36 @@ class CartFragment : Fragment() {
                 checkoutCard.visibility = View.VISIBLE
                 rv.visibility           = View.VISIBLE
 
-                val sub  = items.sumOf { it.subtotal }
-                val ship = if (sub >= FREE_SHIP) 0 else SHIP_FEE
+                val sub   = items.sumOf { it.subtotal }
+                val ship  = if (sub >= FREE_SHIP) 0 else SHIP_FEE
                 val total = sub + ship
 
                 tvSubtotal.text = "₹$sub"
                 tvShipping.text = if (ship == 0) "FREE" else "₹$ship"
                 tvTotal.text    = "₹$total"
 
-                rv.layoutManager = LinearLayoutManager(requireContext())
-                rv.adapter = CartItemAdapter(items) { productId, qty ->
-                    CartManager.setQty(productId, qty)
-                    (activity as? MainActivity)?.updateCartBadge()
-                    renderCart(view)
+                if (isAdded) {
+                    rv.layoutManager = LinearLayoutManager(requireContext())
+                    rv.adapter = CartItemAdapter(items) { productId, qty ->
+                        CartManager.setQty(productId, qty)
+                        (activity as? MainActivity)?.updateCartBadge()
+                        renderCart(view)
+                    }
+                    btnCod.setOnClickListener { showAddressSheet(items, total, true) }
+                    btnOnline.setOnClickListener { openWebCheckout() }
+                    btnWhatsApp.setOnClickListener { openWhatsApp(items, total) }
                 }
 
-                btnCod.setOnClickListener { showAddressSheet(items, total, true) }
-                btnOnline.setOnClickListener { openWebCheckout() }
-                btnWhatsApp.setOnClickListener { openWhatsApp(items, total) }
-
-            } catch (_: Exception) {
-                if (isAdded) Toast.makeText(requireContext(), "Failed to load cart", Toast.LENGTH_SHORT).show()
+            } catch (t: Throwable) {
+                if (isAdded) {
+                    try {
+                        val msg = "CartFragment: ${t.javaClass.name}: ${t.message}\n" +
+                            t.stackTrace.take(6).joinToString("\n") { "  at ${it.className}.${it.methodName}(${it.fileName}:${it.lineNumber})" }
+                        requireContext().getSharedPreferences("ahf_crash", android.content.Context.MODE_PRIVATE)
+                            .edit().putString("last", msg).commit()
+                        Toast.makeText(requireContext(), "Error loading cart. Reopen app for details.", Toast.LENGTH_LONG).show()
+                    } catch (_: Throwable) {}
+                }
             }
         }
     }
