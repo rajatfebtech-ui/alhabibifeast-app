@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        // Show last crash — check both SharedPreferences and file backup
         val crashPrefs = getSharedPreferences("ahf_crash", Context.MODE_PRIVATE)
         val crashFile  = File(filesDir, "crash.txt")
         val lastCrash  = crashPrefs.getString("last", null)
@@ -38,27 +37,8 @@ class MainActivity : AppCompatActivity() {
                 .show()
         }
 
-        val navHost = supportFragmentManager.findFragmentById(R.id.navHost) as NavHostFragment
-        val nav     = navHost.navController
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
-        bottomNav.setupWithNavController(nav)
-
-        updateCartBadge()
-    }
-
-    fun updateCartBadge() {
-        try {
-            val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav) ?: return
-            val count = CartManager.getTotalCount()
-            val badge = bottomNav.getOrCreateBadge(R.id.nav_cart)
-            badge.isVisible = count > 0
-            if (count > 0) badge.number = count
-        } catch (_: Exception) {}
-    }
-}
-
-        val navHost = supportFragmentManager.findFragmentById(R.id.navHost) as NavHostFragment
-        val nav     = navHost.navController
+        val navHost   = supportFragmentManager.findFragmentById(R.id.navHost) as NavHostFragment
+        val nav       = navHost.navController
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
         bottomNav.setupWithNavController(nav)
 
