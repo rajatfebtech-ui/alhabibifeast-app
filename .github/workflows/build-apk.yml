@@ -26,41 +26,32 @@ jobs:
       - name: Grant execute permission to gradlew
         run: chmod +x gradlew
 
-      # ── Release keystore ──────────────────────────────────────────────────
-      - name: Decode or generate keystore
+      # ── Generate keystore ──────────────────────────────────────────────────
+      - name: Generate release keystore
         run: |
-          if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
-            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/keystore.jks
-            echo "Using keystore from secret"
-          else
-            # First-time: generate a keystore and print its base64 so you can save it as a secret
-            keytool -genkey -v \
-              -keystore app/keystore.jks \
-              -alias alhabibifeast \
-              -keyalg RSA -keysize 2048 -validity 10000 \
-              -storepass "AhfStore2024" \
-              -keypass  "AhfKey2024" \
-              -dname "CN=Al Habibi Feast,OU=App,O=AlHabibiFeast,L=Roorkee,ST=Uttarakhand,C=IN"
-            echo ""
-            echo "========== SAVE THIS AS GitHub Secret KEYSTORE_BASE64 =========="
-            base64 app/keystore.jks
-            echo "================================================================"
-          fi
+          keytool -genkey -v \
+            -keystore app/keystore.jks \
+            -alias alhabibifeast \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass "AhfStore2024" \
+            -keypass "AhfStore2024" \
+            -dname "CN=Al Habibi Feast,OU=App,O=AlHabibiFeast,L=Roorkee,ST=Uttarakhand,C=IN"
+          echo "Keystore generated"
 
-      # ── Debug build (always) ──────────────────────────────────────────────
+      # ── Debug build ────────────────────────────────────────────────────────
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: ./gradlew assembleDebug
 
       # ── Release build ─────────────────────────────────────────────────────
       - name: Build Release APK
         env:
           KEYSTORE_PATH: keystore.jks
-          KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS != '' && secrets.KEYSTORE_PASS || 'AhfStore2024' }}
-          KEY_ALIAS:     ${{ secrets.KEY_ALIAS     != '' && secrets.KEY_ALIAS     || 'alhabibifeast' }}
-          KEY_PASS:      ${{ secrets.KEY_PASS      != '' && secrets.KEY_PASS      || 'AhfKey2024' }}
-        run: ./gradlew assembleRelease --stacktrace
+          KEYSTORE_PASS: AhfStore2024
+          KEY_ALIAS: alhabibifeast
+          KEY_PASS: AhfStore2024
+        run: ./gradlew assembleRelease
 
-      # ── Upload both APKs ──────────────────────────────────────────────────
+      # ── Upload APKs ───────────────────────────────────────────────────────
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
@@ -68,7 +59,7 @@ jobs:
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
 
-      - name: Upload Release APK (Play Store ready)
+      - name: Upload Release APK (Play Store)
         uses: actions/upload-artifact@v4
         with:
           name: AlHabibiFeast-release-signed
@@ -78,7 +69,5 @@ jobs:
       - name: Build summary
         run: |
           echo "✅ Build complete!"
-          echo "Debug APK:"
           ls -lh app/build/outputs/apk/debug/ 2>/dev/null || true
-          echo "Release APK:"
           ls -lh app/build/outputs/apk/release/ 2>/dev/null || true
