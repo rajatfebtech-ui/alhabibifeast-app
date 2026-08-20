@@ -42,16 +42,18 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
-      # ── Release build ─────────────────────────────────────────────────────
-      - name: Build Release APK
+      # ── Release APK + App Bundle ──────────────────────────────────────────
+      - name: Build Release APK and Bundle
         env:
           KEYSTORE_PATH: keystore.jks
           KEYSTORE_PASS: AhfStore2024
           KEY_ALIAS: alhabibifeast
           KEY_PASS: AhfStore2024
-        run: ./gradlew assembleRelease
+        run: |
+          ./gradlew assembleRelease
+          ./gradlew bundleRelease
 
-      # ── Upload APKs ───────────────────────────────────────────────────────
+      # ── Upload artifacts ──────────────────────────────────────────────────
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
@@ -59,11 +61,18 @@ jobs:
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
 
-      - name: Upload Release APK (Play Store)
+      - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
-          name: AlHabibiFeast-release-signed
+          name: AlHabibiFeast-release-apk
           path: app/build/outputs/apk/release/app-release.apk
+          retention-days: 30
+
+      - name: Upload App Bundle (Play Store)
+        uses: actions/upload-artifact@v4
+        with:
+          name: AlHabibiFeast-release-bundle
+          path: app/build/outputs/bundle/release/app-release.aab
           retention-days: 30
 
       - name: Build summary
@@ -71,3 +80,4 @@ jobs:
           echo "✅ Build complete!"
           ls -lh app/build/outputs/apk/debug/ 2>/dev/null || true
           ls -lh app/build/outputs/apk/release/ 2>/dev/null || true
+          ls -lh app/build/outputs/bundle/release/ 2>/dev/null || true
