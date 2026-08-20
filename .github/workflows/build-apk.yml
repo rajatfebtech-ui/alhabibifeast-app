@@ -26,17 +26,11 @@ jobs:
       - name: Grant execute permission to gradlew
         run: chmod +x gradlew
 
-      # ── Generate keystore ──────────────────────────────────────────────────
-      - name: Generate release keystore
+      # ── Restore permanent keystore from secret ─────────────────────────────
+      - name: Restore keystore
         run: |
-          keytool -genkey -v \
-            -keystore app/keystore.jks \
-            -alias alhabibifeast \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass "AhfStore2024" \
-            -keypass "AhfStore2024" \
-            -dname "CN=Al Habibi Feast,OU=App,O=AlHabibiFeast,L=Roorkee,ST=Uttarakhand,C=IN"
-          echo "Keystore generated"
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/keystore.jks
+          echo "Keystore restored from secret"
 
       # ── Debug build ────────────────────────────────────────────────────────
       - name: Build Debug APK
