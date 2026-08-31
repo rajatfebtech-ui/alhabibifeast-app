@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -34,24 +35,23 @@ class HomeFragment : Fragment() {
         inflater.inflate(R.layout.fragment_home, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val chipGroup  = view.findViewById<ChipGroup>(R.id.categoryChips)
-        val rvFeatured = view.findViewById<RecyclerView>(R.id.rvFeatured)
-        val tvBestseller = view.findViewById<TextView>(R.id.tvBestsellerTitle)
+        val chipGroup    = view.findViewById<ChipGroup>(R.id.categoryChips)
+        val rvFeatured   = view.findViewById<RecyclerView>(R.id.rvFeatured)
+        val progress     = view.findViewById<ProgressBar>(R.id.homeProgress)
+        val tvError      = view.findViewById<TextView>(R.id.tvHomeError)
 
-        // Category chips
         categories.forEach { (label, cat) ->
             val chip = Chip(requireContext()).apply {
-                text  = label
-                isCheckable  = true
-                isChecked    = cat == "all"
+                text        = label
+                isCheckable = true
+                isChecked   = cat == "all"
                 setOnClickListener { navigateToMenu(cat) }
             }
             chipGroup.addView(chip)
         }
 
-        // Featured products
         rvFeatured.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        loadFeatured(rvFeatured)
+        loadFeatured(rvFeatured, progress, tvError)
     }
 
     private fun navigateToMenu(cat: String) {
@@ -59,18 +59,33 @@ class HomeFragment : Fragment() {
         findNavController().navigate(R.id.nav_menu, bundle)
     }
 
-    private fun loadFeatured(rv: RecyclerView) {
+    private fun loadFeatured(rv: RecyclerView, progress: ProgressBar, tvError: TextView) {
         lifecycleScope.launch {
+            progress.visibility = View.VISIBLE
+            tvError.visibility  = View.GONE
             try {
                 val resp = ApiClient.api.getProducts()
-                if (resp.ok) {
+                if (resp.ok && resp.products.isNotEmpty()) {
                     val featured = resp.products.filter { it.isBestseller }.take(10)
+                        .ifEmpty { resp.products.take(10) }
                     rv.adapter = ProductAdapter(featured) { product, qty ->
                         CartManager.addItem(product, qty)
                         activity?.let { (it as? com.alhabibifeast.app.MainActivity)?.updateCartBadge() }
                     }
+                } else {
+                    if (isAdded) {
+                        tvError.text       = "No products found. Pull to refresh."
+                        tvError.visibility = View.VISIBLE
+                    }
                 }
-            } catch (_: Exception) {}
+            } catch (e: Exception) {
+                if (isAdded) {
+                    tvError.text       = "Could not load products: ${e.javaClass.simpleName}: ${e.message?.take(80)}"
+                    tvError.visibility = View.VISIBLE
+                }
+            } finally {
+                progress.visibility = View.GONE
+            }
         }
     }
 }
