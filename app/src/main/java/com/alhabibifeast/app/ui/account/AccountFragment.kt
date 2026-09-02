@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.alhabibifeast.app.R
+import com.alhabibifeast.app.admin.AdminLoginActivity
 import com.alhabibifeast.app.rider.RiderLoginActivity
 import com.google.android.material.textfield.TextInputEditText
 
@@ -70,6 +71,10 @@ class AccountFragment : Fragment() {
 
         view.findViewById<Button>(R.id.btnRiderLogin)?.setOnClickListener {
             startActivity(Intent(requireContext(), RiderLoginActivity::class.java))
+        }
+
+        view.findViewById<Button>(R.id.btnAdminPanel)?.setOnClickListener {
+            startActivity(Intent(requireContext(), AdminLoginActivity::class.java))
         }
     }
 

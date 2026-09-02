@@ -115,7 +115,14 @@
             android:layout_width="match_parent" android:layout_height="48dp"
             android:text="🛵  Rider Login"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:textColor="@color/navy" android:layout_marginBottom="10dp"/>
+            android:textColor="@color/navy" android:layout_marginBottom="8dp"/>
+
+        <Button android:id="@+id/btnAdminPanel"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:text="📋  Admin Panel"
+            android:backgroundTint="@color/navy"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="10dp"/>
 
         <TextView android:text="Delivering only in Roorkee (PIN 247667)\n© Al Habibi Feast"
             android:textColor="#AAAAAA" android:textSize="12sp" android:gravity="center"

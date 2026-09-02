@@ -45,6 +45,19 @@
             android:screenOrientation="portrait"
             android:label="Rider Dashboard"/>
 
+        <!-- Admin -->
+        <activity
+            android:name=".admin.AdminLoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="Admin Login"/>
+
+        <activity
+            android:name=".admin.AdminDashboardActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="Admin Dashboard"/>
+
 
     </application>
 </manifest>
