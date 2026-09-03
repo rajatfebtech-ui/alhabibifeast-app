@@ -45,6 +45,11 @@
             android:screenOrientation="portrait"
             android:label="Rider Dashboard"/>
 
+        <!-- Admin order polling -->
+        <receiver
+            android:name=".admin.OrderAlarmReceiver"
+            android:exported="false"/>
+
         <!-- Admin -->
         <activity
             android:name=".admin.AdminLoginActivity"

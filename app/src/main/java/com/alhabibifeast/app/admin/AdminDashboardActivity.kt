@@ -12,9 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import com.alhabibifeast.app.R
 import com.alhabibifeast.app.data.api.ApiClient
 import com.alhabibifeast.app.data.model.AdminOrder
@@ -22,7 +19,6 @@ import com.alhabibifeast.app.data.model.UpdateStatusRequest
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 
 class AdminDashboardActivity : AppCompatActivity() {
 
@@ -87,12 +83,12 @@ class AdminDashboardActivity : AppCompatActivity() {
         btnLogout.setOnClickListener {
             getSharedPreferences("ahf_admin", Context.MODE_PRIVATE)
                 .edit().clear().apply()
-            WorkManager.getInstance(this).cancelUniqueWork("order_poll")
+            OrderAlarmScheduler.stop(this)
             finish()
         }
 
-        // Start background polling
-        startOrderPolling()
+        // Start alarm-based polling (every 2 min)
+        OrderAlarmScheduler.start(this)
 
         // Initial load
         loadOrders(progress, tvEmpty)
@@ -158,12 +154,4 @@ class AdminDashboardActivity : AppCompatActivity() {
         }
     }
 
-    private fun startOrderPolling() {
-        val req = PeriodicWorkRequestBuilder<OrderPollingWorker>(15, TimeUnit.MINUTES).build()
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            "order_poll",
-            ExistingPeriodicWorkPolicy.KEEP,
-            req
-        )
-    }
 }

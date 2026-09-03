@@ -22,6 +22,8 @@ import com.alhabibifeast.app.data.model.CodOrderRequest
 import com.alhabibifeast.app.data.model.CustomerInfo
 import com.alhabibifeast.app.data.model.LocalOrder
 import com.alhabibifeast.app.data.model.OrderItem
+import android.view.WindowManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
@@ -101,9 +103,14 @@ class CartFragment : Fragment() {
     }
 
     private fun showAddressSheet(items: List<CartItem>, total: Int, isCod: Boolean) {
-        val sheet = BottomSheetDialog(requireContext())
+        val sheet = BottomSheetDialog(requireContext(), com.google.android.material.R.style.Theme_Material3_Light_BottomSheetDialog)
+        sheet.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         val sv = layoutInflater.inflate(R.layout.sheet_checkout, null)
         sheet.setContentView(sv)
+        sheet.setOnShowListener {
+            val bs = sheet.findViewById<android.widget.FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+            bs?.let { BottomSheetBehavior.from(it).state = BottomSheetBehavior.STATE_EXPANDED }
+        }
 
         sv.findViewById<Button>(R.id.btnConfirmOrder).setOnClickListener {
             val name    = sv.findViewById<TextInputEditText>(R.id.etName).text.toString().trim()
