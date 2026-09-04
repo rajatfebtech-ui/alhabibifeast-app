@@ -83,12 +83,12 @@ class AdminDashboardActivity : AppCompatActivity() {
         btnLogout.setOnClickListener {
             getSharedPreferences("ahf_admin", Context.MODE_PRIVATE)
                 .edit().clear().apply()
-            OrderAlarmScheduler.stop(this)
+            OrderMonitorService.stop(this)
             finish()
         }
 
-        // Start alarm-based polling (every 2 min)
-        OrderAlarmScheduler.start(this)
+        // Start foreground service for reliable notifications
+        OrderMonitorService.start(this)
 
         // Initial load
         loadOrders(progress, tvEmpty)

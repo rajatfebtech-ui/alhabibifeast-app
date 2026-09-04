@@ -7,21 +7,24 @@
     android:layout_marginStart="12dp"
     android:layout_marginEnd="12dp"
     android:layout_marginBottom="10dp"
-    app:cardElevation="3dp"
-    app:cardCornerRadius="10dp">
+    app:cardElevation="4dp"
+    app:cardCornerRadius="10dp"
+    app:cardBackgroundColor="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="14dp">
+        android:padding="14dp"
+        android:background="#FFFFFF">
 
-        <!-- Header row -->
+        <!-- Header: Order ID + Status -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="6dp">
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
 
             <TextView
                 android:id="@+id/tvOrderId"
@@ -29,8 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textStyle="bold"
-                android:textSize="14sp"
-                android:textColor="@color/navy"/>
+                android:textSize="15sp"
+                android:textColor="#1A237E"/>
 
             <TextView
                 android:id="@+id/tvOrderStatus"
@@ -38,44 +41,58 @@
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:background="@drawable/chip_bg"
-                android:textColor="#FFFFFF"/>
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:textColor="#FFFFFF"
+                android:background="#CC0000"/>
         </LinearLayout>
 
-        <!-- Customer info -->
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E0E0E0"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Customer name -->
         <TextView
             android:id="@+id/tvCustomerName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="#333333"/>
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#212121"
+            android:layout_marginBottom="3dp"/>
 
+        <!-- Phone -->
         <TextView
             android:id="@+id/tvCustomerPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:textColor="#555555"/>
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:layout_marginBottom="3dp"/>
 
+        <!-- Address -->
         <TextView
             android:id="@+id/tvOrderAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="#777777"
+            android:textSize="13sp"
+            android:textColor="#555555"
             android:layout_marginBottom="6dp"/>
 
-        <!-- Items summary -->
+        <!-- Items -->
         <TextView
             android:id="@+id/tvOrderItems"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="#555555"
+            android:textSize="13sp"
+            android:textColor="#444444"
+            android:background="#F5F5F5"
+            android:padding="8dp"
             android:layout_marginBottom="8dp"/>
 
         <!-- Total -->
@@ -83,74 +100,94 @@
             android:id="@+id/tvOrderTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:textStyle="bold"
-            android:textColor="@color/terra"
+            android:textColor="#B71C1C"
             android:layout_marginBottom="10dp"/>
 
-        <!-- Action buttons -->
+        <!-- 4 action buttons -->
         <LinearLayout
-            android:id="@+id/llOrderActions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="6dp">
 
             <Button
                 android:id="@+id/btnConfirmOrder"
                 android:layout_width="0dp"
-                android:layout_height="38dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:layout_marginEnd="4dp"
-                android:text="✅ Confirm"
-                android:textSize="12sp"
+                android:layout_marginEnd="3dp"
+                android:text="✅"
+                android:textSize="18sp"
                 android:backgroundTint="#2E7D32"
                 android:textColor="#FFFFFF"/>
 
             <Button
                 android:id="@+id/btnPreparing"
                 android:layout_width="0dp"
-                android:layout_height="38dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:text="🍗 Preparing"
-                android:textSize="12sp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                android:text="🍗"
+                android:textSize="18sp"
                 android:backgroundTint="#E65100"
                 android:textColor="#FFFFFF"/>
 
             <Button
                 android:id="@+id/btnOutForDelivery"
                 android:layout_width="0dp"
-                android:layout_height="38dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:text="🛵 Dispatch"
-                android:textSize="12sp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                android:text="🛵"
+                android:textSize="18sp"
                 android:backgroundTint="#1565C0"
                 android:textColor="#FFFFFF"/>
 
             <Button
                 android:id="@+id/btnDelivered"
                 android:layout_width="0dp"
-                android:layout_height="38dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:text="📦 Delivered"
-                android:textSize="12sp"
+                android:layout_marginStart="3dp"
+                android:text="📦"
+                android:textSize="18sp"
                 android:backgroundTint="#4A148C"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
 
-        <!-- Call button -->
+        <!-- Button labels row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="Confirm"
+                android:gravity="center" android:textSize="10sp" android:textColor="#2E7D32"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="Prep"
+                android:gravity="center" android:textSize="10sp" android:textColor="#E65100"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="Dispatch"
+                android:gravity="center" android:textSize="10sp" android:textColor="#1565C0"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="Delivered"
+                android:gravity="center" android:textSize="10sp" android:textColor="#4A148C"/>
+        </LinearLayout>
+
+        <!-- Call customer -->
         <Button
             android:id="@+id/btnCallCustomer"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginTop="6dp"
-            android:text="📞 Call Customer"
-            android:textSize="12sp"
-            android:backgroundTint="@color/navy"
+            android:layout_height="40dp"
+            android:text="📞  Call Customer"
+            android:textSize="13sp"
+            android:backgroundTint="#1A237E"
             android:textColor="#FFFFFF"/>
 
     </LinearLayout>
